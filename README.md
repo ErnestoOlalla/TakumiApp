@@ -33,6 +33,7 @@ This project is a sandbox for playing with a variety of modern tools and concept
 *   🖼️ **Coil**: For image loading.
 *   🐘 **Gradle Convention Plugins**: To manage dependencies and project setup in a centralized way.
 *   💨 **Kotlin Coroutines & Flow**: For asynchronous programming.
+*   🚀 **Apollo GraphQL**: For GraphQL communication.
 
 ## 🏁 Getting Started
 

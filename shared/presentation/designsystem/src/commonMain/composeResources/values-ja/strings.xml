@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App title -->
+    <string name="characters_title">リック・アンド・モーティのキャラクター</string>
+    
+    <!-- Error messages -->
+    <string name="error_prefix">エラー: </string>
+    <string name="error_unknown">不明</string>
+    
+    <!-- Character details -->
+    <string name="character_info">キャラクター情報</string>
+    <string name="status_label">状態</string>
+    <string name="species_label">種族</string>
+    <string name="type_label">タイプ</string>
+    <string name="gender_label">性別</string>
+    
+    <!-- Origin and location -->
+    <string name="origin_location_title">出身地と現在地</string>
+    <string name="origin_label">出身地</string>
+    <string name="origin_dimension_label">出身次元</string>
+    <string name="last_location_label">最後の場所</string>
+    
+    <!-- Episodes -->
+    <string name="episodes_title">エピソード</string>
+    <string name="aired_prefix">放送日: </string>
+    <string name="episode_label">エピソード</string>
+    <string name="air_date_label">放送日</string>
+    <string name="created_label">作成日</string>
+    
+    <!-- Characters in episode -->
+    <string name="characters_count">キャラクター (%1$d)</string>
+    
+    <!-- Content descriptions -->
+    <string name="character_avatar_desc">%1$sのアバター</string>
+    <string name="character_image_desc">%1$sの画像</string>
+</resources>

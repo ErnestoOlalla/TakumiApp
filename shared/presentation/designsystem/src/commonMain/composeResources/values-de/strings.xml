@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App title -->
+    <string name="characters_title">Rick und Morty Charaktere</string>
+    
+    <!-- Error messages -->
+    <string name="error_prefix">Fehler: </string>
+    <string name="error_unknown">Unbekannt</string>
+    
+    <!-- Character details -->
+    <string name="character_info">Charakter-Informationen</string>
+    <string name="status_label">Status</string>
+    <string name="species_label">Spezies</string>
+    <string name="type_label">Typ</string>
+    <string name="gender_label">Geschlecht</string>
+    
+    <!-- Origin and location -->
+    <string name="origin_location_title">Herkunft &amp; Standort</string>
+    <string name="origin_label">Herkunft</string>
+    <string name="origin_dimension_label">Herkunfts-Dimension</string>
+    <string name="last_location_label">Letzter Standort</string>
+    
+    <!-- Episodes -->
+    <string name="episodes_title">Episoden</string>
+    <string name="aired_prefix">Ausgestrahlt: </string>
+    <string name="episode_label">Episode</string>
+    <string name="air_date_label">Ausstrahlungsdatum</string>
+    <string name="created_label">Erstellt</string>
+    
+    <!-- Characters in episode -->
+    <string name="characters_count">Charaktere (%1$d)</string>
+    
+    <!-- Content descriptions -->
+    <string name="character_avatar_desc">%1$s Avatar</string>
+    <string name="character_image_desc">%1$s Bild</string>
+</resources>

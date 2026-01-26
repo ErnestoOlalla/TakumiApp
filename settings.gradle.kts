@@ -2,6 +2,7 @@ rootProject.name = "TakumiApp"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             mavenContent {
@@ -29,3 +30,10 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":shared:common")
+include(":shared:data")
+include(":shared:domain")
+include(":shared:presentation:features:characterlist")
+include(":shared:presentation:features:characterdetails")
+include(":shared:presentation:features:episodedetails")
+include(":shared:presentation:designsystem")

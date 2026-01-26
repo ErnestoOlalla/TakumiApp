@@ -1,0 +1,37 @@
+package com.efor18.takumi
+
+import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+
+@OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+internal fun Project.configureKotlinMultiplatform(
+    extension: KotlinMultiplatformExtension
+) = extension.apply {
+    jvmToolchain(17)
+
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    listOf(iosArm64(), iosSimulatorArm64())
+
+    applyDefaultHierarchyTemplate()
+
+    sourceSets.apply {
+        commonMain {
+            dependencies {
+                implementation(project.dependencies.platform(libs.findLibrary("koin.bom").get()))
+                api(libs.findLibrary("koin.core").get())
+                implementation(libs.findLibrary("kermit").get())
+            }
+
+            androidMain {
+                dependencies {
+                }
+            }
+        }
+    }
+}

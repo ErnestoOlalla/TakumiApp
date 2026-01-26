@@ -1,0 +1,9 @@
+query AllCharacters {
+    characters {
+        results {
+            image
+            name
+            id
+        }
+    }
+}

@@ -1,0 +1,35 @@
+<resources>
+    <!-- App title -->
+    <string name="characters_title">Personajes de Rick y Morty</string>
+    
+    <!-- Error messages -->
+    <string name="error_prefix">Error: </string>
+    <string name="error_unknown">Desconocido</string>
+    
+    <!-- Character details -->
+    <string name="character_info">Información del Personaje</string>
+    <string name="status_label">Estado</string>
+    <string name="species_label">Especie</string>
+    <string name="type_label">Tipo</string>
+    <string name="gender_label">Género</string>
+    
+    <!-- Origin and location -->
+    <string name="origin_location_title">Origen y Ubicación</string>
+    <string name="origin_label">Origen</string>
+    <string name="origin_dimension_label">Dimensión de Origen</string>
+    <string name="last_location_label">Última Ubicación</string>
+    
+    <!-- Episodes -->
+    <string name="episodes_title">Episodios</string>
+    <string name="aired_prefix">Emitido: </string>
+    <string name="episode_label">Episodio</string>
+    <string name="air_date_label">Fecha de Emisión</string>
+    <string name="created_label">Creado</string>
+    
+    <!-- Characters in episode -->
+    <string name="characters_count">Personajes (%1$d)</string>
+    
+    <!-- Content descriptions -->
+    <string name="character_avatar_desc">Avatar de %1$s</string>
+    <string name="character_image_desc">Imagen de %1$s</string>
+</resources>

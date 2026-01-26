@@ -1,35 +1,47 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# TakumiApp
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+## Overview
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+TakumiApp is a Kotlin Multiplatform project that serves as a playground for experimenting with the latest technologies and architectural patterns in mobile development. The primary goal of this repository is to explore and implement cutting-edge solutions for building modern, scalable, and maintainable applications for Android and iOS from a single codebase. This project is in constant evolution.
 
-### Build and Run Android Application
+This project is not intended as a production-ready application, but rather as a learning and experimentation environment.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+## Architecture
 
-### Build and Run iOS Application
+The project follows the principles of **Clean Architecture**, with a clear separation of concerns between the data, domain, and presentation layers. This is further enforced by a modular structure that promotes scalability, maintainability, and testability.
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+### Modules
 
----
+*   **`:composeApp`**: The main application module, responsible for orchestrating the user interface and navigation.
+*   **`:shared:common`**: A common module containing shared utilities, extensions, and constants.
+*   **`:shared:data`**: The data layer, responsible for fetching and storing data from various sources (e.g., REST APIs, local database).
+*   **`:shared:domain`**: The domain layer, containing the business logic and use cases of the application.
+*   **`:shared:presentation:designsystem`**: A dedicated module for the design system, including custom themes, typography, and reusable UI components.
+*   **`:shared:presentation:features`**: A collection of feature modules, each representing a distinct feature of the application (e.g., character list, character details).
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Tech-Stack & Concepts
+
+This project is a sandbox for playing with a variety of modern tools and concepts.
+
+*   **Kotlin Multiplatform**: Sharing code between Android and iOS.
+*   **Compose Multiplatform**: Building UIs for both platforms from a single, declarative codebase.
+*   **Material 3**: The latest version of Google's open-source design system.
+*   **Clean Architecture**: Enforcing separation of concerns for a scalable and maintainable codebase.
+*   **Feature-based Modularization**: Structuring the app by features.
+*   **Ktor**: For networking.
+*   **Koin**: For dependency injection.
+*   **Coil**: For image loading.
+*   **Gradle Convention Plugins**: To manage dependencies and project setup in a centralized way.
+*   **Kotlin Coroutines & Flow**: For asynchronous programming.
+
+## Getting Started
+
+Clone the repository and open it in Android Studio.
+
+```bash
+git clone https://github.com/your-username/TakumiApp.git
+```
+
+## Contributing
+
+This is a personal playground, but feel free to fork it, play with it, and share your thoughts. If you have any interesting ideas or find bugs, feel free to open an issue.

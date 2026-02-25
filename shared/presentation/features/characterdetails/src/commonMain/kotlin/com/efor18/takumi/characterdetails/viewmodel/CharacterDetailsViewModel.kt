@@ -20,29 +20,28 @@ class CharacterDetailsViewModel(
     private val _uiState = MutableStateFlow(CharacterDetailsUIState())
     val uiState = _uiState.asStateFlow()
 
-    val actions = CharacterDetailsActions(
-        start = ::start,
-        onEpisodeClick = ::onEpisodeClick
-    )
+    fun sendIntent(intent: CharacterDetailsIntents) {
+        when (intent) {
+            is CharacterDetailsIntents.Start -> loadCharacter(intent.id)
+            is CharacterDetailsIntents.EpisodeClick -> onEpisodeClick(intent.id)
+        }
+    }
 
-    private fun start(characterId: String) {
-        _uiState.update { it.copy(isLoading = true, error = null) }
+    private fun dispatch(result: CharacterDetailsResults) {
+        _uiState.update {
+            characterDetailsReducer(_uiState.value, result)
+        }
+    }
+
+
+    private fun loadCharacter(characterId: String) {
+        dispatch(CharacterDetailsResults.Loading)
         viewModelScope.launch {
             val result = getCharacterDetailsUseCase(characterId)
             if (result.isSuccess) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        character = result.value()?.toUI()
-                    )
-                }
+                dispatch(CharacterDetailsResults.Success(result.value()?.toUI()))
             } else {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = result.error()?.message
-                    )
-                }
+                dispatch(CharacterDetailsResults.Error(result.error()?.message))
             }
         }
     }
@@ -58,7 +57,27 @@ data class CharacterDetailsUIState(
     val error: String? = null
 )
 
-data class CharacterDetailsActions(
-    val start: (String) -> Unit = {},
-    val onEpisodeClick: (String) -> Unit = {}
-)
+sealed interface CharacterDetailsIntents {
+    data class Start(val id: String) : CharacterDetailsIntents
+    data class EpisodeClick(val id: String) : CharacterDetailsIntents
+}
+
+sealed interface CharacterDetailsResults {
+    data object Loading : CharacterDetailsResults
+    data class Success(val character: CharacterDetailsUiModel?) : CharacterDetailsResults
+    data class Error(val message: String?) : CharacterDetailsResults
+}
+
+fun characterDetailsReducer(
+    state: CharacterDetailsUIState,
+    result: CharacterDetailsResults
+): CharacterDetailsUIState {
+    return when (result) {
+        CharacterDetailsResults.Loading -> state.copy(isLoading = true, error = null)
+        is CharacterDetailsResults.Error -> state.copy(isLoading = false, error = result.message)
+        is CharacterDetailsResults.Success -> state.copy(
+            isLoading = false,
+            character = result.character
+        )
+    }
+}

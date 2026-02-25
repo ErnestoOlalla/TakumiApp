@@ -25,15 +25,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.efor18.takumi.common.formatToHumanReadableDate
 import com.efor18.takumi.episodedetails.model.EpisodeCharacterUiModel
 import com.efor18.takumi.episodedetails.model.EpisodeDetailsUiModel
+import com.efor18.takumi.episodedetails.viewmodel.EpisodeDetailsIntents
 import com.efor18.takumi.episodedetails.viewmodel.EpisodeDetailsViewModel
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.viewmodel.koinViewModel
-import com.efor18.takumi.common.formatToHumanReadableDate
-import com.efor18.takumi.res.Res
 import com.efor18.takumi.res.*
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 @Preview
@@ -46,7 +46,7 @@ fun EpisodeDetailsScreen(
 
     // Start data loading when the screen is first shown
     LaunchedEffect(Unit) {
-        viewModel.actions.start(episodeId)
+        viewModel.sendIntent(EpisodeDetailsIntents.Start(episodeId))
     }
 
     when {
@@ -61,7 +61,9 @@ fun EpisodeDetailsScreen(
         uiState.episode != null -> {
             EpisodeDetails(
                 episode = uiState.episode!!,
-                onCharacterClick = viewModel.actions.onCharacterClick
+                onCharacterClick = { characterId ->
+                    viewModel.sendIntent(EpisodeDetailsIntents.CharacterClick(characterId))
+                }
             )
         }
     }
@@ -84,7 +86,8 @@ private fun ErrorEpisodeState(error: String?) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(Res.string.error_prefix) + (error ?: stringResource(Res.string.error_unknown)),
+            text = stringResource(Res.string.error_prefix) + (error
+                ?: stringResource(Res.string.error_unknown)),
             color = MaterialTheme.colorScheme.error
         )
     }
@@ -138,15 +141,21 @@ private fun EpisodeInfoCard(episode: EpisodeDetailsUiModel) {
                 text = episode.name,
                 style = MaterialTheme.typography.headlineMedium
             )
-            
+
             InfoRow(label = stringResource(Res.string.episode_label), value = episode.episode)
-            
+
             episode.airDate?.let { airDate ->
-                InfoRow(label = stringResource(Res.string.air_date_label), value = formatToHumanReadableDate(airDate))
+                InfoRow(
+                    label = stringResource(Res.string.air_date_label),
+                    value = formatToHumanReadableDate(airDate)
+                )
             }
-            
+
             episode.created?.let { created ->
-                InfoRow(label = stringResource(Res.string.created_label), value = formatToHumanReadableDate(created))
+                InfoRow(
+                    label = stringResource(Res.string.created_label),
+                    value = formatToHumanReadableDate(created)
+                )
             }
         }
     }
@@ -171,12 +180,15 @@ private fun EpisodeCharacterCard(
         ) {
             AsyncImage(
                 model = character.imageUrl,
-                contentDescription = stringResource(Res.string.character_image_desc, character.name),
+                contentDescription = stringResource(
+                    Res.string.character_image_desc,
+                    character.name
+                ),
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape)
             )
-            
+
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = character.name,

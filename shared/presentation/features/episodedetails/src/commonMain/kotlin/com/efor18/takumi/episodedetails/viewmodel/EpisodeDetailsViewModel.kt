@@ -20,29 +20,27 @@ class EpisodeDetailsViewModel(
     private val _uiState = MutableStateFlow(EpisodeDetailsUIState())
     val uiState = _uiState.asStateFlow()
 
-    val actions = EpisodeDetailsActions(
-        start = ::start,
-        onCharacterClick = ::onCharacterClick
-    )
+    fun sendIntent(intent: EpisodeDetailsIntents) {
+        when (intent) {
+            is EpisodeDetailsIntents.Start -> start(intent.id)
+            is EpisodeDetailsIntents.CharacterClick -> onCharacterClick(intent.id)
+        }
+    }
+
+    private fun dispatch(result: EpisodeDetailsResult) {
+        _uiState.update {
+            episodeDetailsReducer(_uiState.value, result)
+        }
+    }
 
     private fun start(episodeId: String) {
-        _uiState.update { it.copy(isLoading = true, error = null) }
+        dispatch(EpisodeDetailsResult.Loading)
         viewModelScope.launch {
             val result = getEpisodeDetailsUseCase(episodeId)
             if (result.isSuccess) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        episode = result.value()?.toUI()
-                    )
-                }
+                dispatch(EpisodeDetailsResult.Success(result.value()?.toUI()))
             } else {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = result.error()?.message
-                    )
-                }
+                dispatch(EpisodeDetailsResult.Error(result.error()?.message))
             }
         }
     }
@@ -58,7 +56,28 @@ data class EpisodeDetailsUIState(
     val error: String? = null
 )
 
-data class EpisodeDetailsActions(
-    val start: (String) -> Unit = {},
-    val onCharacterClick: (String) -> Unit = {}
-)
+sealed interface EpisodeDetailsIntents {
+    data class Start(val id: String) : EpisodeDetailsIntents
+    data class CharacterClick(val id: String) : EpisodeDetailsIntents
+}
+
+sealed interface EpisodeDetailsResult {
+    data object Loading : EpisodeDetailsResult
+    data class Success(val episode: EpisodeDetailsUiModel?) : EpisodeDetailsResult
+    data class Error(val message: String?) : EpisodeDetailsResult
+
+}
+
+fun episodeDetailsReducer(
+    state: EpisodeDetailsUIState,
+    result: EpisodeDetailsResult
+): EpisodeDetailsUIState {
+    return when (result) {
+        EpisodeDetailsResult.Loading -> state.copy(isLoading = true, error = null)
+        is EpisodeDetailsResult.Error -> state.copy(isLoading = false, error = result.message)
+        is EpisodeDetailsResult.Success -> state.copy(
+            isLoading = false,
+            episode = result.episode
+        )
+    }
+}

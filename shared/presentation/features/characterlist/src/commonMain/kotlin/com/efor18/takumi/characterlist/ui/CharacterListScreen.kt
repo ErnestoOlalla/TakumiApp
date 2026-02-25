@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import co.touchlab.kermit.Logger
 import coil3.compose.AsyncImage
 import com.efor18.takumi.characterlist.model.CharacterUiModel
+import com.efor18.takumi.characterlist.viewmodel.CharacterListIntent
 import com.efor18.takumi.characterlist.viewmodel.CharacterListViewModel
 import com.efor18.takumi.res.Res
 import com.efor18.takumi.res.characters_title
@@ -48,7 +49,7 @@ fun CharacterListScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.actions.start()
+        viewModel.sendIntent(CharacterListIntent.Start)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -67,7 +68,7 @@ fun CharacterListScreen(
                 CharacterList(
                     characters = uiState.characters,
                     onCharacterClick = { character ->
-                        viewModel.actions.onCharacterClick(character.id)
+                        viewModel.sendIntent(CharacterListIntent.CharacterClicked(character.id))
                     }
                 )
             }
